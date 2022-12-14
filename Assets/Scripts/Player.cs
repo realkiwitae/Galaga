@@ -5,7 +5,7 @@ using System;
 
 public class Player : MonoBehaviour
 {
-
+// Movement
     [SerializeField]
     private float _t_todx = 4f;
     public float horizontalInput;
@@ -21,6 +21,12 @@ public class Player : MonoBehaviour
     
     private float _aneg = 0f;
  
+// Fire 
+    [SerializeField]
+    private float _cooldown = .15f; 
+    private float _canfire = -99f;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -40,6 +46,10 @@ public class Player : MonoBehaviour
     void Update()
     {
         Move();
+
+        if(Input.GetKeyDown(KeyCode.Space) && Time.time > _canfire){
+            FireLaser();
+        }
     }
 
     void Move(){
@@ -68,5 +78,10 @@ public class Player : MonoBehaviour
             tx,
             transform.position.y,
             transform.position.z);       
+    }
+
+    void FireLaser(){
+        Debug.Log("PEWPEW");
+        _canfire = Time.time + _cooldown;
     }
 }
