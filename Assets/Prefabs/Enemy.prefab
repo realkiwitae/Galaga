@@ -111,3 +111,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _cy: 3.5
+  _cooldown: 0.15
+  _laserPrefab: {fileID: 5374094746538024542, guid: fe767accb1b77393986ed6a386e49ca9, type: 3}

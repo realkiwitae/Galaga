@@ -18,7 +18,6 @@ I am getting the art assets from online courses
 3. UI:
     1. Current score, Remaining lives, Menu to start/restart game. TODO
 4. Gameplay:
-    2. Player's ship can be destroyed by enemies' bullet or collide to enemies directly. TODO
     3. Enemies fly in groups into a formation near the top of the screen, then begin flying down toward the player, firing bullets. TODO
 5. Bonus:
     1. Enemies may drop item, Player's ship can equip it to enhance gun, such as multi-bullets in one shot, or faster shooting. TODO

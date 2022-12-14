@@ -84,7 +84,7 @@ public class Player : MonoBehaviour
 
     void FireLaser(){
 
-        GameObject g = Instantiate(
+        Instantiate(
             _laserPrefab,transform.position + (.2f+transform.localScale.y/2)*Vector3.up,
             Quaternion.identity);
 
@@ -97,6 +97,18 @@ public class Player : MonoBehaviour
             GameManager.Instance.playerDeath();
             Destroy(this.gameObject);            
         }
+    }
+
+    private void OnTriggerEnter(Collider other) {
+
+        if (other.tag == "Laser"){
+            Laser l = other.gameObject.GetComponent<Laser>();
+            if(!l) return;
+            if(!l.shouldDestroy(this.tag))return;
+            Destroy(other.gameObject);
+            Damage();
+        }
+
     }
 }
 

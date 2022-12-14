@@ -7,19 +7,43 @@ public class Laser : MonoBehaviour
 
 
     [SerializeField]
-    private float _vy = 10.0f;
-
+    private float _vy = 0f;
+    public float vy {
+        get {
+            return _vy;
+        }
+        set{
+            _vy = value;
+            
+        }
+    }
+    private string _target_tag = "Enemy";
+    public string target_tag {
+    get {
+        return _target_tag;
+    }
+    set{_target_tag = value;}
+    }
     // Start is called before the first frame update
     void Start()
     {
+        _vy = target_tag == "Player"? GameManager.Instance.rules.enemy_laser_vy 
+            :GameManager.Instance.rules.player_laser_vy;
+
     }
 
     // Update is called once per frame
     void Update()
     {
         transform.Translate(Vector3.up* _vy * Time.deltaTime);
-        if(transform.position.y > GameManager.Instance.maxy + transform.localScale.y){
+        if(transform.position.y > GameManager.Instance.maxy + transform.localScale.y
+        || transform.position.y < GameManager.Instance.miny - transform.localScale.y)
+        {
             Destroy(this.gameObject);
         }
+    }
+
+    public bool shouldDestroy(string _tag){
+        return _target_tag == _tag;
     }
 }

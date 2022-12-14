@@ -9,6 +9,8 @@ public enum EGameState{
 
 public class Rules{
     public int player_nblives = 3;
+    public float player_laser_vy = 15f;
+    public float enemy_laser_vy = -10f;
 };
 
 public class GameManager{
