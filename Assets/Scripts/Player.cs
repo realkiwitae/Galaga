@@ -10,6 +10,8 @@ public class Player : MonoBehaviour
     private float _t_todx = 4f;
     public float horizontalInput;
 
+    private int _lives = 3;
+
     private float _cvx = 0f;
 
     private float _vmax = 0f;
@@ -28,12 +30,15 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        transform.position = new Vector3() + (GameManager.Instance.miny+transform.localScale.y/2)*Vector3.up;
+        transform.position = new Vector3() 
+                    + (GameManager.Instance.miny+transform.localScale.y/2)*Vector3.up;
   
         // capped vmax,and accelerations for targetted travel time and ramps
         _vmax = (GameManager.Instance.maxx-GameManager.Instance.minx)/_t_todx;
         _apos = _vmax/.5f;
         _aneg = -_vmax/.5f;
+
+        _lives = GameManager.Instance.rules.player_nblives;
 
     }
 
@@ -73,8 +78,8 @@ public class Player : MonoBehaviour
         
         transform.position = new Vector3(
             tx,
-            transform.position.y,
-            transform.position.z);       
+            GameManager.Instance.miny + transform.localScale.y/2,
+            0f);       
     }
 
     void FireLaser(){
@@ -85,4 +90,13 @@ public class Player : MonoBehaviour
 
         _canfire = Time.time + _cooldown;
     }
+
+    public void Damage(){
+    
+        if(--_lives < 1){
+            GameManager.Instance.playerDeath();
+            Destroy(this.gameObject);            
+        }
+    }
 }
+

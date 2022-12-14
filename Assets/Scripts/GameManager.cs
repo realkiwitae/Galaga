@@ -2,6 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum EGameState{
+    GAMEOVER,
+    PLAYING
+}
+
+public class Rules{
+    public int player_nblives = 3;
+};
+
 public class GameManager{
     private static GameManager _instance;
     GameManager() {
@@ -11,6 +20,8 @@ public class GameManager{
         minx = -stageDimensions.x;
         maxx = stageDimensions.x;
 
+        rules = new Rules();
+        Debug.Log("PLAYING");
     }    
  
     public static GameManager Instance {
@@ -22,7 +33,13 @@ public class GameManager{
             return _instance;
         }
     }
-    public string test = "YOO";
+    public Rules rules;
     public float maxx,minx,miny,maxy;
 
+    public EGameState gameState = EGameState.PLAYING; 
+
+    public void playerDeath(){
+        gameState = EGameState.GAMEOVER;
+        Debug.Log("GAMEOVER");
+    }
  }
