@@ -10,9 +10,6 @@ public class Player : MonoBehaviour
     private float _t_todx = 4f;
     public float horizontalInput;
 
-    private float _minx;
-    private float _maxx;
-
     private float _cvx = 0f;
 
     private float _vmax = 0f;
@@ -25,18 +22,16 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float _cooldown = .15f; 
     private float _canfire = -99f;
-
+    [SerializeField]
+    private GameObject _laserPrefab;
 
     // Start is called before the first frame update
     void Start()
     {
-        Vector3 stageDimensions = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, 0, 0));
-        transform.position = new Vector3() + (stageDimensions.y+transform.localScale.y/2)*Vector3.up;
-        _minx = -stageDimensions.x;
-        _maxx = stageDimensions.x;
-
+        transform.position = new Vector3() + (GameManager.Instance.miny+transform.localScale.y/2)*Vector3.up;
+  
         // capped vmax,and accelerations for targetted travel time and ramps
-        _vmax = (_maxx-_minx)/_t_todx;
+        _vmax = (GameManager.Instance.maxx-GameManager.Instance.minx)/_t_todx;
         _apos = _vmax/.5f;
         _aneg = -_vmax/.5f;
 
@@ -60,7 +55,7 @@ public class Player : MonoBehaviour
         float tx = transform.position.x;
 
         // target dx
-        float dx = (_maxx-_minx)*horizontalInput;
+        float dx = (GameManager.Instance.maxx-GameManager.Instance.minx)*horizontalInput;
 
         float ov = _cvx;
         // smooth factor
@@ -72,7 +67,9 @@ public class Player : MonoBehaviour
 
         // ensure continuity of integral
 	    tx += (_cvx+ov)/2f*Time.deltaTime;
-        tx = Math.Clamp(tx, _minx + transform.localScale.x/2 , _maxx - transform.localScale.x/2 );
+        tx = Math.Clamp(tx, 
+            GameManager.Instance.minx + transform.localScale.x/2 ,
+            GameManager.Instance.maxx - transform.localScale.x/2 );
         
         transform.position = new Vector3(
             tx,
@@ -81,7 +78,11 @@ public class Player : MonoBehaviour
     }
 
     void FireLaser(){
-        Debug.Log("PEWPEW");
+
+        GameObject g = Instantiate(
+            _laserPrefab,transform.position + (.2f+transform.localScale.y/2)*Vector3.up,
+            Quaternion.identity);
+
         _canfire = Time.time + _cooldown;
     }
 }
