@@ -10,6 +10,9 @@ public class Player : MonoBehaviour
     private float _t_todx = 4f;
     public float horizontalInput;
 
+    public float score = 0f;
+    public long kill_count = 0;
+
     private int _lives = 3;
 
     private float _cvx = 0f;
@@ -83,11 +86,15 @@ public class Player : MonoBehaviour
     }
 
     void FireLaser(){
-
-        Instantiate(
+        GameObject g = Instantiate(
             _laserPrefab,transform.position + (.2f+transform.localScale.y/2)*Vector3.up,
             Quaternion.identity);
-
+        Laser l = null;
+        if(g) l = g.GetComponent<Laser>();
+        if(l) {
+            l.target_tag = "Enemy";
+            l.owner = this.gameObject;
+        }
         _canfire = Time.time + _cooldown;
     }
 
@@ -109,6 +116,10 @@ public class Player : MonoBehaviour
             Damage();
         }
 
+    }
+
+    public void AddScore(int s){
+        score += s;
     }
 }
 

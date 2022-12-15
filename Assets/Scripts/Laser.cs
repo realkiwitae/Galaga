@@ -8,6 +8,15 @@ public class Laser : MonoBehaviour
 
     [SerializeField]
     private float _vy = 0f;
+    
+    private GameObject  _owner = null;
+    public GameObject owner {
+    get {
+        return _owner;
+    }
+    set{_owner = value;}
+    }
+
     public float vy {
         get {
             return _vy;
@@ -29,7 +38,6 @@ public class Laser : MonoBehaviour
     {
         _vy = target_tag == "Player"? GameManager.Instance.rules.enemy_laser_vy 
             :GameManager.Instance.rules.player_laser_vy;
-
     }
 
     // Update is called once per frame

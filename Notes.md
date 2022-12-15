@@ -13,10 +13,10 @@ I am getting the art assets from online courses
 1. General: 
     1. User can start the game and restart after a win/loss TODO
 2. Rules:
-    1. Win: (you may choose one) achieve N score or kill  M enemies. TODO
-    2. Lose:  the player's lives are exhausted. TODO
+    1. Win: (you may choose one) achieve N score or kill  M enemies. WIP
+    2. Lose:  the player's lives are exhausted. WIP
 3. UI:
-    1. Current score, Remaining lives, Menu to start/restart game. TODO
+    1. Current score, Remaining lives, Menu to start/restart game. WIP
 4. Gameplay:
     3. Enemies fly in groups into a formation near the top of the screen, then begin flying down toward the player, firing bullets. TODO
 5. Bonus:

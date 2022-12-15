@@ -9,6 +9,9 @@ public class Enemy : MonoBehaviour
 
 // Fire 
     [SerializeField]
+    private int _score= 100;
+
+    [SerializeField]
     private float _cooldown = .15f; 
     private float _canfire = -99f;
     private bool _bFire = false;
@@ -47,6 +50,12 @@ public class Enemy : MonoBehaviour
             Laser l = other.gameObject.GetComponent<Laser>();
             if(!l) return;
             if(!l.shouldDestroy(this.tag))return;
+
+            if(l.owner){
+                Player p = l.owner.GetComponent<Player>();
+                if(p)p.AddScore(_score);
+            }
+
             Destroy(other.gameObject);
             Destroy(this.gameObject);
         }
@@ -71,6 +80,7 @@ public class Enemy : MonoBehaviour
         if(g) l = g.GetComponent<Laser>();
         if(l) {
             l.target_tag = "Player";
+            l.owner = this.gameObject;
         }
         _canfire = Time.time + _cooldown;
 

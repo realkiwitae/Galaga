@@ -11,6 +11,11 @@ public class Rules{
     public int player_nblives = 3;
     public float player_laser_vy = 15f;
     public float enemy_laser_vy = -10f;
+
+    // win condition
+    public float win_score = 999f;
+    public long win_kills = 10;
+
 };
 
 public class GameManager{
