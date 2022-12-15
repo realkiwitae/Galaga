@@ -21,7 +21,7 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         GameManager g = GameManager.Instance;
-        transform.position = new Vector3(Random.Range(g.minx,g.maxx),g.maxy - transform.localScale.y/2,0);
+        transform.position = new Vector3(Random.Range(g.minx+transform.localScale.x ,g.maxx- transform.localScale.x),g.maxy - transform.localScale.y/2,0);
     }
 
     // Update is called once per frame

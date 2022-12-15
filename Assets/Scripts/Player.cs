@@ -14,7 +14,9 @@ public class Player : MonoBehaviour
     public long kill_count = 0;
 
     private int _lives = 3;
-
+    public int lives{
+        get{return _lives;}
+    }
     private float _cvx = 0f;
 
     private float _vmax = 0f;
@@ -34,7 +36,7 @@ public class Player : MonoBehaviour
     void Start()
     {
         transform.position = new Vector3() 
-                    + (GameManager.Instance.miny+transform.localScale.y/2)*Vector3.up;
+                    + (GameManager.Instance.miny+3*transform.localScale.y/2)*Vector3.up;
   
         // capped vmax,and accelerations for targetted travel time and ramps
         _vmax = (GameManager.Instance.maxx-GameManager.Instance.minx)/_t_todx;
@@ -81,7 +83,7 @@ public class Player : MonoBehaviour
         
         transform.position = new Vector3(
             tx,
-            GameManager.Instance.miny + transform.localScale.y/2,
+            GameManager.Instance.miny + 3*transform.localScale.y/2,
             0f);       
     }
 

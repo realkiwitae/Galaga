@@ -16,7 +16,7 @@ I am getting the art assets from online courses
     1. Win: (you may choose one) achieve N score or kill  M enemies. WIP
     2. Lose:  the player's lives are exhausted. WIP
 3. UI:
-    1. Current score, Remaining lives, Menu to start/restart game. WIP
+    1. Current score(ok), Remaining lives(ok), Menu to start/restart game. WIP
 4. Gameplay:
     3. Enemies fly in groups into a formation near the top of the screen, then begin flying down toward the player, firing bullets. TODO
 5. Bonus:
@@ -37,3 +37,8 @@ I chose Galaga because I already I already played around with PACMAN and Tetris 
 5. Now the player is moving and firing weapons.
 6. adding enemies gotta remember that needs a rigid body with trigger on for collisions.
 7. Looked to cleanup gitignore as I keep getting untracked files 
+
+# 15th/12
+1. Added a scoring system scoring points when our laser kills an enemy
+2. UImanager in the scene as well screen scalable
+3. linked score and lives to UImanager

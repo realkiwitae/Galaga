@@ -6,19 +6,27 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     [SerializeField]
-    private Text text;
+    private Text scoretext;
+    [SerializeField]
+    private Text livestext;
     [SerializeField]
     private Player p;
 
     // Start is called before the first frame update
     void Start()
     {   
-        text.text = "Score: " + 0;
+        scoretext.text = "Score: " + 0;
+        livestext.text = "Lives: " + GameManager.Instance.rules.player_nblives;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(p)text.text = "Score:" + p.score;       
+        if(p){
+            scoretext.text = "Score:" + p.score;   
+            livestext.text = "Lives: " + p.lives;
+        }else{
+            livestext.text = "Lives: 0";
+        }
     }
 }
