@@ -10,13 +10,8 @@ I am getting the art assets from online courses
 
 
 # TASKS
-1. General: 
-    1. User can start the game and restart after a win/loss TODO
 2. Rules:
     1. Win: (you may choose one) achieve N score or kill  M enemies. WIP
-    2. Lose:  the player's lives are exhausted. WIP
-3. UI:
-    1. Current score(ok), Remaining lives(ok), Menu to start/restart game. WIP
 4. Gameplay:
     3. Enemies fly in groups into a formation near the top of the screen, then begin flying down toward the player, firing bullets. TODO
 5. Bonus:
@@ -42,3 +37,7 @@ I chose Galaga because I already I already played around with PACMAN and Tetris 
 1. Added a scoring system scoring points when our laser kills an enemy
 2. UImanager in the scene as well screen scalable
 3. linked score and lives to UImanager
+
+# 16th/12
+1. Main Menu for starting game and scoreboard at the end of game
+2. Menu stuff is working atm gonna start checking how to spawn enemies and formations

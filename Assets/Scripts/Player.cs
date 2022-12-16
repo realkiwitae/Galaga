@@ -103,7 +103,7 @@ public class Player : MonoBehaviour
     public void Damage(){
     
         if(--_lives < 1){
-            GameManager.Instance.playerDeath();
+            GameManager.Instance.playerDeath(score);
             Destroy(this.gameObject);            
         }
     }

@@ -16,7 +16,7 @@ public class Laser : MonoBehaviour
     }
     set{_owner = value;}
     }
-
+ 
     public float vy {
         get {
             return _vy;

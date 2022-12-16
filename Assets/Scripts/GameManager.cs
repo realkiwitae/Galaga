@@ -1,11 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public enum EGameState{
-    GAMEOVER,
-    PLAYING
+    MENU,
+    
+    ENDGAME,
+    PLAYING,
+
 }
+
+public class Results{
+    public float score;
+    public float time;
+    
+    public bool bwin = false;
+};
 
 public class Rules{
     public int player_nblives = 3;
@@ -21,16 +32,15 @@ public class Rules{
 public class GameManager{
     private static GameManager _instance;
     GameManager() {
-        Vector3 stageDimensions = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, 0, 0));
-        maxy = -stageDimensions.y;
-        miny = stageDimensions.y;
-        minx = -stageDimensions.x;
-        maxx = stageDimensions.x;
-
+        startStage();
+        res = new Results();
         rules = new Rules();
-        Debug.Log("PLAYING");
+        gameState = EGameState.MENU;
+        
     }    
- 
+
+    public Results res;
+
     public static GameManager Instance {
         get {
             if(_instance==null) {
@@ -45,8 +55,30 @@ public class GameManager{
 
     public EGameState gameState = EGameState.PLAYING; 
 
-    public void playerDeath(){
-        gameState = EGameState.GAMEOVER;
-        Debug.Log("GAMEOVER");
+    public void playerDeath(float score){
+        res.score = score;
+        res.time = Time.timeSinceLevelLoad;
+        res.bwin = false;
+        gameState = EGameState.ENDGAME;
+        
+        handleScore(score);
+
+        SceneManager.LoadScene(0);
+    }
+
+    public void startStage(){
+        Vector3 stageDimensions = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, 0, 0));
+        maxy = -stageDimensions.y;
+        miny = stageDimensions.y;
+        minx = -stageDimensions.x;
+        maxx = stageDimensions.x;
+    }
+
+    private void handleScore(float score){
+        if(!PlayerPrefs.HasKey("highscore"))PlayerPrefs.SetFloat("highscore",0);
+        if(score > PlayerPrefs.GetFloat("highscore")){
+            PlayerPrefs.SetFloat("highscore",score);
+        }
+
     }
  }
