@@ -744,6 +744,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6505222609943624548, guid: e103495c3a87bd3b98913392b3b1f3aa, type: 3}
+      propertyPath: _score
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 6505222609943624548, guid: e103495c3a87bd3b98913392b3b1f3aa, type: 3}
       propertyPath: _cooldown
       value: 0.2
       objectReference: {fileID: 0}
@@ -870,6 +874,7 @@ MonoBehaviour:
   kill_count: 0
   _cooldown: 0.15
   _laserPrefab: {fileID: 5374094746538024542, guid: fe767accb1b77393986ed6a386e49ca9, type: 3}
+  _popupprefab: {fileID: 3630147583154538283, guid: c72443104cfb2ddb286ad2531b45ffb5, type: 3}
 --- !u!54 &2096444922
 Rigidbody:
   m_ObjectHideFlags: 0

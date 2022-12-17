@@ -11,7 +11,7 @@ public class Player : MonoBehaviour
     public float horizontalInput;
 
     public float score = 0f;
-    public long kill_count = 0;
+    public int kill_count = 0;
 
     private int _lives = 3;
     public int lives{
@@ -31,7 +31,8 @@ public class Player : MonoBehaviour
     private float _canfire = -99f;
     [SerializeField]
     private GameObject _laserPrefab;
-
+    [SerializeField]
+    private GameObject _popupprefab;
     // Start is called before the first frame update
     void Start()
     {
@@ -103,7 +104,7 @@ public class Player : MonoBehaviour
     public void Damage(){
     
         if(--_lives < 1){
-            GameManager.Instance.playerDeath(score);
+            GameManager.Instance.playerDeath(this);
             Destroy(this.gameObject);            
         }
     }
@@ -122,6 +123,14 @@ public class Player : MonoBehaviour
 
     public void AddScore(int s){
         score += s;
+        kill_count++;
+        if(GameManager.Instance.checkXWin(this)){
+            GameObject g = Instantiate(
+            _popupprefab,transform.position + (.2f+transform.localScale.y/2)*Vector3.up + (.2f+transform.localScale.x/2)*Vector3.right,
+            Quaternion.identity);
+            if(g)g.transform.SetParent(this.transform);
+
+        }
     }
 }
 

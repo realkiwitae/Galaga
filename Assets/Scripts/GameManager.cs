@@ -8,8 +8,11 @@ public enum EGameState{
     
     ENDGAME,
     PLAYING,
-
 }
+public enum EGameMode{
+    POINTS,
+    KILLS,
+};
 
 public class Results{
     public float score;
@@ -39,6 +42,7 @@ public class GameManager{
         
     }    
 
+    public EGameMode gameMode = EGameMode.POINTS;
     public Results res;
 
     public static GameManager Instance {
@@ -55,13 +59,14 @@ public class GameManager{
 
     public EGameState gameState = EGameState.PLAYING; 
 
-    public void playerDeath(float score){
-        res.score = score;
+    public void playerDeath(Player p){
+  
+        res.score = p.score;
         res.time = Time.timeSinceLevelLoad;
-        res.bwin = false;
         gameState = EGameState.ENDGAME;
         
-        handleScore(score);
+        handleScore(p.score);
+        handleKill(p.kill_count);
 
         SceneManager.LoadScene(0);
     }
@@ -72,13 +77,40 @@ public class GameManager{
         miny = stageDimensions.y;
         minx = -stageDimensions.x;
         maxx = stageDimensions.x;
+        if(!PlayerPrefs.HasKey("highscore"))PlayerPrefs.SetFloat("highscore",0);
+        if(!PlayerPrefs.HasKey("highkill"))PlayerPrefs.SetInt("highkill",0);
+
     }
 
     private void handleScore(float score){
-        if(!PlayerPrefs.HasKey("highscore"))PlayerPrefs.SetFloat("highscore",0);
         if(score > PlayerPrefs.GetFloat("highscore")){
             PlayerPrefs.SetFloat("highscore",score);
         }
 
+    }
+    private void handleKill(int score){
+        if(score > PlayerPrefs.GetInt("highkill")){
+            PlayerPrefs.SetInt("highkill",score);
+        }
+
+    }
+    public bool checkXWin(Player p){
+        if(p){
+            bool b = res.bwin;
+            switch(gameMode){
+                case EGameMode.POINTS:
+                
+                    res.bwin = PlayerPrefs.GetFloat("highscore") < p.score;
+                break;
+                case EGameMode.KILLS:
+                    res.bwin = PlayerPrefs.GetInt("highkill") < p.kill_count;
+                break;
+                default:
+                break;
+            }
+            return b != res.bwin;
+        }
+
+        return false;
     }
  }
