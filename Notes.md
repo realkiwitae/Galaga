@@ -41,3 +41,10 @@ I chose Galaga because I already I already played around with PACMAN and Tetris 
 # 16th/12
 1. Main Menu for starting game and scoreboard at the end of game
 2. Menu stuff is working atm gonna start checking how to spawn enemies and formations
+
+# 17th/12
+1. no time ~ I was doing AOC day 16th https://adventofcode.com/2022 got 32*  
+2. I added a game mode for diff win conditions, ill add a toggle in the menu at some point
+
+# 18th/12
+1. won't be there tomorrow ~
