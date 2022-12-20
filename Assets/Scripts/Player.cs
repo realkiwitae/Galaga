@@ -6,6 +6,14 @@ using System;
 public class Player : MonoBehaviour
 {
 // Movement
+
+    public static Player Instance;
+    
+    void Awake()
+    {
+        Instance = this;
+    }
+
     [SerializeField]
     private float _t_todx = 4f;
     public float horizontalInput;
@@ -41,8 +49,8 @@ public class Player : MonoBehaviour
   
         // capped vmax,and accelerations for targetted travel time and ramps
         _vmax = (GameManager.Instance.maxx-GameManager.Instance.minx)/_t_todx;
-        _apos = _vmax/.5f;
-        _aneg = -_vmax/.5f;
+        _apos = _vmax/.2f;
+        _aneg = -_vmax/.1f;
 
         _lives = GameManager.Instance.rules.player_nblives;
 

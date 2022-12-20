@@ -61,3 +61,4 @@ I chose Galaga because I already I already played around with PACMAN and Tetris 
 7. Added score bonuses for clearing rows of the wave the highest row on screen gets more points.
 8. NB: too much convolution in my code, too many references, its not clean, so I went on and made a singleton EventManager to deal with game events, as such the code is now robust and easier to read.
 3events so far AddScore, PlayerHurt , EnemyDeath
+9. Enemy state machine : SPAWN move toward player then fly back towards wave pos. READY IN WAVE
