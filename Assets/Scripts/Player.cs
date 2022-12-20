@@ -138,7 +138,8 @@ public class Player : MonoBehaviour
             _popupprefab,transform.position + (.2f+transform.localScale.y/2)*Vector3.up + (.2f+transform.localScale.x/2)*Vector3.right,
             Quaternion.identity);
             if(g)g.transform.SetParent(this.transform);
-
+            PopUpText p = g.GetComponent<PopUpText>();
+            if(p)p.msg = "You won!";
         }
     }
 }

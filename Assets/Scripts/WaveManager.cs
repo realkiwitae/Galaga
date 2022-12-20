@@ -70,7 +70,7 @@ public class WaveManager : MonoBehaviour
             grid[i] = (1 << (g.rules.W)) - 1;
             for(int j = 0; j < g.rules.W; j++){
                 GameObject a = Instantiate(
-                    _enemyPrefab,transform.position + (i*transform.localScale.y)*Vector3.down + (j*transform.localScale.z)*Vector3.right,
+                    _enemyPrefab,transform.position + (i*transform.localScale.y)*Vector3.down + (j*transform.localScale.x)*Vector3.right,
                     Quaternion.identity);
                 Enemy l = null;
                 if(a) l = a.GetComponent<Enemy>();
@@ -89,7 +89,17 @@ public class WaveManager : MonoBehaviour
         if(grid[y] == 0){
             // we get bonus points for row y
             EventManager.Instance.AddScore(row_scores[y]);
-            
+            // Instanciate popup
+            GameObject a = Instantiate(
+            _popupprefab,transform.position 
+                + (y*transform.localScale.y)*Vector3.down + (x*transform.localScale.x)*Vector3.right
+                ,
+            Quaternion.identity);
+            PopUpText p = a.GetComponent<PopUpText>();
+            if(p){
+                p.time_left = 1f;
+                p.msg = "+" + row_scores[y] + "!";
+            }
             gridempty &= ~(1 << y);
             if(gridempty == 0){
                 bActive = false;

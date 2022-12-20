@@ -13,7 +13,7 @@ I am getting the art assets from online courses
 2. Rules:
     1. Win: (you may choose one) achieve N score or kill  M enemies. WIP
 4. Gameplay:
-    3. Enemies fly in groups into a formation near the top of the screen, then begin flying down toward the player, firing bullets. TODO
+    3. Enemies fly in groups into a formation near the top of the screen, then begin flying down toward the player, firing bullets. WIP
 5. Bonus:
     1. Enemies may drop item, Player's ship can equip it to enhance gun, such as multi-bullets in one shot, or faster shooting. TODO
 
