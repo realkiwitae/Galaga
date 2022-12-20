@@ -24,7 +24,7 @@ public class Enemy : MonoBehaviour
     private ESTATE_MACHINE state;
 
     public int x,y;
-
+    bool bDiveOverdue = false;
 // Fire 
     [SerializeField]
     private int _score= 100;
@@ -33,6 +33,8 @@ public class Enemy : MonoBehaviour
     private float _cooldown = .15f; 
     private float _canfire = -99f;
     private bool _bFire = false;
+    private float fire_p = .9999f;
+    private float fire_p_dive = .999f;
     [SerializeField]
     private GameObject _laserPrefab;
     // Start is called before the first frame update
@@ -55,13 +57,19 @@ public class Enemy : MonoBehaviour
         target_x = p.transform.position.x;
         target_y = p.transform.localScale.y + p.transform.position.y;
 
+        EventManager.Instance.onEnemyDive += Dive;
+
+    }
+
+    private void OnDestroy() {
+        EventManager.Instance.onEnemyDive -= Dive;
     }
 
     // Update is called once per frame
     void Update()
     {
         //Rnd fire
-        _bFire = UnityEngine.Random.Range(0f,1f) > .9999f;
+        _bFire = UnityEngine.Random.Range(0f,1f) > (state == ESTATE_MACHINE.DIVE?fire_p_dive:fire_p);
         if(_bFire && Time.time > _canfire){
             FireLaser();
         }
@@ -81,11 +89,26 @@ public class Enemy : MonoBehaviour
                 if(Mathf.Abs(target_x-transform.position.x) + Mathf.Abs(target_y-transform.position.y) < .001f){
                     state = ESTATE_MACHINE.READY;
                     transform.SetParent(gridpos);
+                    EventManager.Instance.EnemyReady(x,y);
                 }
                 break;
             case ESTATE_MACHINE.READY: // stay on wave grid
+                if(bDiveOverdue){
+                    Player p = Player.Instance;
+                    if(p){
+                        bDiveOverdue = false;
+                        state = ESTATE_MACHINE.DIVE;
+                        target_x = p.transform.position.x;
+                        target_y = (y==GameManager.Instance.rules.H-1?0:1)*p.transform.localScale.y + p.transform.position.y;
+                        transform.parent = null;
+                    }
+                }
                 break;
             case ESTATE_MACHINE.DIVE: // triggered by wave
+                Move();
+                if(Mathf.Abs(target_x-transform.position.x) + Mathf.Abs(target_y-transform.position.y) < .001f){
+                    state = ESTATE_MACHINE.TO_GRID;
+                }
                 break;
             default:
                 break;
@@ -163,6 +186,12 @@ public class Enemy : MonoBehaviour
         }
         _canfire = Time.time + _cooldown;
 
+    }
+
+    void Dive(int i, int j){
+        if(j == x && i == y){
+            bDiveOverdue = true;
+        }
     }
 
 }

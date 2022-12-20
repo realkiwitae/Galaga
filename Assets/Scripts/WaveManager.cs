@@ -8,10 +8,17 @@ public class WaveManager : MonoBehaviour
 
     private bool bActive = false;
     int[] grid;
+    int[] ready;
     float[] row_scores;
     [SerializeField]
     private float _vx = 1f;
     int gridempty;
+
+    private float _cooldown = 3f; 
+    private float _candive = 10f;
+
+    private bool _bDive = false;
+    private float dive_p = .99f;
     GameManager g;
     
     [SerializeField]
@@ -29,23 +36,57 @@ public class WaveManager : MonoBehaviour
 
         bActive = false;
         grid = new int[g.rules.H];
+        ready = new int[g.rules.H];
 
         for(int i = 0; i < grid.Length;i++){
             grid[i] = 0;
+            ready[i] = 0;
         }
         gridempty = 0;//(1 << g.rules.H) - 1;
         row_scores = new float[] {g.rules.bonus_row_0,g.rules.bonus_row_1,g.rules.bonus_row_2,g.rules.bonus_row_3,g.rules.bonus_row_4};
 
         EventManager.Instance.onEnemyDeath += onEnemyDeath;
+        EventManager.Instance.onEnemyReady += onEnemyReady;
     }
 
     private void OnDestroy() {
-        EventManager.Instance.onEnemyDeath -= onEnemyDeath;        
+        EventManager.Instance.onEnemyDeath -= onEnemyDeath;
+        EventManager.Instance.onEnemyReady -= onEnemyReady;       
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(bActive){
+                    //Rnd fire
+            _bDive = UnityEngine.Random.Range(0f,1f) > dive_p;
+            if(_bDive && Time.time > _candive){
+                
+                {
+
+                    int try_cnt = 0;
+                    int row = -1;
+                    int column = -1;
+                    while(++try_cnt < 6){
+                        row = Random.Range(0,g.rules.H);
+                        if(ready[row]>0){
+                            break;
+                        }
+                    }
+                    while(++try_cnt < 11){
+                        column = Random.Range(0,g.rules.W);
+                        if((ready[row]&(1<<column)) > 0 ){
+                            break;
+                        }
+                    }
+                    if(try_cnt < 11){
+                        MakeEnemiesDive(row,column);
+                    }
+                }
+
+                
+            }
+        }
         if(!bActive){
             SpawnWave();
         }
@@ -68,6 +109,7 @@ public class WaveManager : MonoBehaviour
         gridempty = (1 << g.rules.H) - 1;
         for(int i = 0; i < grid.Length;i++){
             grid[i] = (1 << (g.rules.W)) - 1;
+            ready[i] = 0;
             for(int j = 0; j < g.rules.W; j++){
                 GameObject a = Instantiate(
                     _enemyPrefab, 
@@ -107,6 +149,23 @@ public class WaveManager : MonoBehaviour
                 bActive = false;
             }
         }
+    }
+    void onEnemyReady(int x,int y){
+        ready[y] |= (1 << x);
+    }
+
+    void MakeEnemiesDive(int row , int column){
+        int range = Random.Range(1,4);
+
+        for(int i = 0; i < grid.Length ; i++ ){
+            for(int j = 0; j < g.rules.W ; j++ ){
+                if((ready[row]&(1<<column)) > 0 && Mathf.Abs(row - i) + Mathf.Abs(column - j) < range  ){
+                    EventManager.Instance.EnemyDive(i,j);
+                }
+            } 
+        } 
+
+        _candive = Time.time + _cooldown;
     }
 
 }

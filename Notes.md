@@ -12,8 +12,6 @@ I am getting the art assets from online courses
 # TASKS
 2. Rules:
     1. Win: (you may choose one) achieve N score or kill  M enemies. WIP
-4. Gameplay:
-    3. Enemies fly in groups into a formation near the top of the screen, then begin flying down toward the player, firing bullets. WIP
 5. Bonus:
     1. Enemies may drop item, Player's ship can equip it to enhance gun, such as multi-bullets in one shot, or faster shooting. TODO
 
@@ -62,3 +60,5 @@ I chose Galaga because I already I already played around with PACMAN and Tetris 
 8. NB: too much convolution in my code, too many references, its not clean, so I went on and made a singleton EventManager to deal with game events, as such the code is now robust and easier to read.
 3events so far AddScore, PlayerHurt , EnemyDeath
 9. Enemy state machine : SPAWN move toward player then fly back towards wave pos. READY IN WAVE
+10. DIVE behavior done, its random groups of range 1 to 4, centered on random row/column with cd
+Enemies diving increase chance of shooting, and first row goes deep for collision
