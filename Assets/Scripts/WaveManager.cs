@@ -10,7 +10,7 @@ public class WaveManager : MonoBehaviour
     int[] grid;
     float[] row_scores;
     [SerializeField]
-    private float _vx = 2f;
+    private float _vx = 1f;
     int gridempty;
     GameManager g;
     
@@ -70,7 +70,9 @@ public class WaveManager : MonoBehaviour
             grid[i] = (1 << (g.rules.W)) - 1;
             for(int j = 0; j < g.rules.W; j++){
                 GameObject a = Instantiate(
-                    _enemyPrefab,transform.position + (i*transform.localScale.y)*Vector3.down + (j*transform.localScale.x)*Vector3.right,
+                    _enemyPrefab, 
+                         (g.maxy + (i*g.rules.W +((i%2==0)?j:g.rules.W-1-j))*transform.localScale.y)*Vector3.up
+                         + (g.maxx+g.minx)/2f*Vector3.right, 
                     Quaternion.identity);
                 Enemy l = null;
                 if(a) l = a.GetComponent<Enemy>();

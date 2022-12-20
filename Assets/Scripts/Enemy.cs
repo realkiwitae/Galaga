@@ -6,7 +6,7 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     [SerializeField]
-    private float _t_todx = 4f;
+    private float _t_todx = 3f;
     private float _cvx = 0f;
     private float _cvy = 0f;
     private float _vmax = 0f;
