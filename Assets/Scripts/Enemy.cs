@@ -7,6 +7,8 @@ public class Enemy : MonoBehaviour
 
     private float _vy = 0f; 
 
+    public int x,y;
+
 // Fire 
     [SerializeField]
     private int _score= 100;
@@ -21,7 +23,7 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         GameManager g = GameManager.Instance;
-        transform.position = new Vector3(Random.Range(g.minx+transform.localScale.x ,g.maxx- transform.localScale.x),g.maxy - transform.localScale.y/2,0);
+      //  transform.position = new Vector3(Random.Range(g.minx+transform.localScale.x ,g.maxx- transform.localScale.x),g.maxy - transform.localScale.y/2,0);
     }
 
     // Update is called once per frame
@@ -29,7 +31,7 @@ public class Enemy : MonoBehaviour
     {
         Move();
 
-        _bFire = Random.Range(0f,1f) > .99f;
+        _bFire = Random.Range(0f,1f) > .9999f;
 
         if(_bFire && Time.time > _canfire){
             FireLaser();
@@ -40,10 +42,8 @@ public class Enemy : MonoBehaviour
 
         if(other.tag == "Player"){
             
-            Player p = other.transform.GetComponent<Player>();
-            if(p != null){
-                p.Damage();
-            }
+            EventManager.Instance.PlayerHurt(1);
+            EventManager.Instance.EnemyDeath(0,this.x,this.y);
             Destroy(this.gameObject);
             
         }else if (other.tag == "Laser"){
@@ -51,11 +51,8 @@ public class Enemy : MonoBehaviour
             if(!l) return;
             if(!l.shouldDestroy(this.tag))return;
 
-            if(l.owner){
-                Player p = l.owner.GetComponent<Player>();
-                if(p)p.AddScore(_score);
-            }
-
+            EventManager.Instance.EnemyDeath(_score,this.x,this.y);
+            
             Destroy(other.gameObject);
             Destroy(this.gameObject);
         }
@@ -67,9 +64,9 @@ public class Enemy : MonoBehaviour
         // to test collisions
      //   transform.position += Vector3.down*Time.deltaTime*_cy;
         GameManager g = GameManager.Instance;   
-        if(transform.position.y + transform.localScale.y/2 < g.miny){
-            transform.position = new Vector3(Random.Range(g.minx,g.maxx),g.maxy - transform.localScale.y/2,0);
-        }
+        // if(transform.position.y + transform.localScale.y/2 < g.miny){
+        //     transform.position = new Vector3(Random.Range(g.minx,g.maxx),g.maxy - transform.localScale.y/2,0);
+        // }
     }
     void FireLaser(){
 

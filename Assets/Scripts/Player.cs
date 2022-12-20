@@ -46,6 +46,15 @@ public class Player : MonoBehaviour
 
         _lives = GameManager.Instance.rules.player_nblives;
 
+        // Events
+        EventManager.Instance.onAddScore += AddScore;
+        EventManager.Instance.onPlayerHurt += Damage;
+
+    }
+
+    private void OnDestroy() {
+        EventManager.Instance.onAddScore -= AddScore;
+        EventManager.Instance.onPlayerHurt -= Damage;    
     }
 
     // Update is called once per frame
@@ -101,9 +110,9 @@ public class Player : MonoBehaviour
         _canfire = Time.time + _cooldown;
     }
 
-    public void Damage(){
-    
-        if(--_lives < 1){
+    public void Damage(int d){
+        _lives = Math.Max(0,_lives -d);
+        if(_lives < 1){
             GameManager.Instance.playerDeath(this);
             Destroy(this.gameObject);            
         }
@@ -116,12 +125,12 @@ public class Player : MonoBehaviour
             if(!l) return;
             if(!l.shouldDestroy(this.tag))return;
             Destroy(other.gameObject);
-            Damage();
+            Damage(1);
         }
 
     }
 
-    public void AddScore(int s){
+    private void AddScore(float s){
         score += s;
         kill_count++;
         if(GameManager.Instance.checkXWin(this)){

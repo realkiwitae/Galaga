@@ -26,9 +26,18 @@ public class Rules{
     public float player_laser_vy = 15f;
     public float enemy_laser_vy = -10f;
 
-    // win condition
-    public float win_score = 999f;
-    public long win_kills = 10;
+    public float bonus_row_0 = 10000;
+    public float bonus_row_1 = 1000;
+    public float bonus_row_2 = 800;
+    public float bonus_row_3 = 300;
+    public float bonus_row_4 = 150;
+    // dimensions enemy grid
+
+    public int W = 8;
+    public int H = 5;
+
+
+
 
 };
 

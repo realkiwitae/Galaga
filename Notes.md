@@ -48,3 +48,16 @@ I chose Galaga because I already I already played around with PACMAN and Tetris 
 
 # 18th/12
 1. won't be there tomorrow ~
+
+# 19th/12 AFK
+
+# 20th/12
+1. I made a roadmap for making engaging enemies, I want them to arrive in waves and attack the player.
+2. Added a wavemanager as a bitmap grid which ensure we have enemies rows spwaning as each wave gets cleared.
+3. the wave moves slowly on X axis just to make it bit alive.
+4. Step 1 make enemies spawn on the wave spot
+5. Step 2 - TODO spawn them on top of the screen, and make they travel to their grid target.
+6. Step 3 - TODO randomly select part of the wave to go down and attack the player
+7. Added score bonuses for clearing rows of the wave the highest row on screen gets more points.
+8. NB: too much convolution in my code, too many references, its not clean, so I went on and made a singleton EventManager to deal with game events, as such the code is now robust and easier to read.
+3events so far AddScore, PlayerHurt , EnemyDeath
