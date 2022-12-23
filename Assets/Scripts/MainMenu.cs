@@ -17,6 +17,13 @@ public class MainMenu : MonoBehaviour
         Debug.Log("Exit Game");
         Application.Quit();
     }
+    public void OnGameModeChanged(Dropdown dropDown)
+    {
+        if(dropDown.value == 0)GameManager.Instance.gameMode = EGameMode.POINTS;
+        else if(dropDown.value == 1)GameManager.Instance.gameMode = EGameMode.KILLS;
+        Debug.Log("DROP DOWN CHANGED -> " + dropDown.value);
+    }
+
     private bool bReady = false;
 
 
@@ -26,7 +33,10 @@ public class MainMenu : MonoBehaviour
         if(!scoretext)return;
         bReady = true;
         if(!PlayerPrefs.HasKey("highscore"))PlayerPrefs.SetFloat("highscore",0);
-        scoretext.text = "Highest score ever: " + PlayerPrefs.GetFloat("highscore") + "\n\n";
+        if(!PlayerPrefs.HasKey("highkill"))PlayerPrefs.SetInt("highkill",0);
+
+        scoretext.text = "Score to beat: \n" + PlayerPrefs.GetFloat("highscore") + "\n";
+        scoretext.text += "Kills to beat: \n" + PlayerPrefs.GetInt("highkill") + "\n\n\n";
         
         if(GameManager.Instance.gameState == EGameState.MENU){
             scoretext.text += "Let's play\n";
@@ -36,7 +46,21 @@ public class MainMenu : MonoBehaviour
 
         if(!GameManager.Instance.res.bwin) scoretext.text += "GAME OVER\n";
         else scoretext.text += "WIN\n";
-        scoretext.text += "score: " + GameManager.Instance.res.score + "\n";
+        
+        if(GameManager.Instance.res.bwin){
+            if(GameManager.Instance.gameMode == 0){
+                scoretext.text += "NEW TOP SCORE \n";
+            }else{
+                scoretext.text += "NEW TOP KILLS \n";    
+            }
+        }else{
+            if(GameManager.Instance.gameMode == 0){
+                scoretext.text += "Missed by: "+ (PlayerPrefs.GetFloat("highscore") - GameManager.Instance.res.score )+"\n";
+            }else{
+                scoretext.text += "Missed by: "+ (PlayerPrefs.GetInt("highkill") - GameManager.Instance.res.kills )+"\n";   
+            }        
+        }
+
 
         System.TimeSpan interval = System.TimeSpan.FromSeconds( (double)GameManager.Instance.res.time );
  

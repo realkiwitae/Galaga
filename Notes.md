@@ -10,8 +10,6 @@ I am getting the art assets from online courses
 
 
 # TASKS
-2. Rules:
-    1. Win: (you may choose one) achieve N score or kill  M enemies. WIP
 5. Bonus:
     1. Enemies may drop item, Player's ship can equip it to enhance gun, such as multi-bullets in one shot, or faster shooting. TODO
 
@@ -62,3 +60,7 @@ I chose Galaga because I already I already played around with PACMAN and Tetris 
 9. Enemy state machine : SPAWN move toward player then fly back towards wave pos. READY IN WAVE
 10. DIVE behavior done, its random groups of range 1 to 4, centered on random row/column with cd
 Enemies diving increase chance of shooting, and first row goes deep for collision
+
+# 23th/12
+1. Changed build/player settings for Window/linux build
+2. Modified UI to add game mode selection KILLS/SCORE

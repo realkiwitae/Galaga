@@ -16,6 +16,7 @@ public enum EGameMode{
 
 public class Results{
     public float score;
+    public int kills;
     public float time;
     
     public bool bwin = false;
@@ -71,6 +72,7 @@ public class GameManager{
     public void playerDeath(Player p){
   
         res.score = p.score;
+        res.kills = p.kill_count;
         res.time = Time.timeSinceLevelLoad;
         gameState = EGameState.ENDGAME;
         

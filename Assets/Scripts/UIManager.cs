@@ -8,6 +8,8 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private Text scoretext;
     [SerializeField]
+    private Text targettext;
+    [SerializeField]
     private Text livestext;
     [SerializeField]
     private Player p;
@@ -15,7 +17,14 @@ public class UIManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {   
-        scoretext.text = "Score: " + 0;
+        if(GameManager.Instance.gameMode == 0){
+            scoretext.text = "Score: " + 0;
+            targettext.text = "Target: " + PlayerPrefs.GetFloat("highscore"); 
+        }else{
+            scoretext.text = "Kills: " + 0;
+            targettext.text = "Target: " + PlayerPrefs.GetInt("highkill"); 
+        }
+
         livestext.text = "Lives: " + GameManager.Instance.rules.player_nblives;
     }
 
@@ -23,8 +32,11 @@ public class UIManager : MonoBehaviour
     void Update()
     {
         if(p){
-            scoretext.text = "Score:" + p.score;   
-            livestext.text = "Lives: " + p.lives;
+            if(GameManager.Instance.gameMode == 0){
+                scoretext.text = "Score: " + p.score;
+            }else{
+                scoretext.text = "Kills: " + p.kill_count;  
+            }
         }else{
             livestext.text = "Lives: 0";
         }
