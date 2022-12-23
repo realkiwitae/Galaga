@@ -17,8 +17,6 @@ public class WaveManager : MonoBehaviour
     private float _cooldown = 3f; 
     private float _candive = 10f;
 
-    private bool _bDive = false;
-    private float dive_p = .99f;
     GameManager g;
     
     [SerializeField]
@@ -47,46 +45,18 @@ public class WaveManager : MonoBehaviour
 
         EventManager.Instance.onEnemyDeath += onEnemyDeath;
         EventManager.Instance.onEnemyReady += onEnemyReady;
+        EventManager.Instance.OnEnemyWannaDive += OnEnemyWannaDive;
     }
 
     private void OnDestroy() {
         EventManager.Instance.onEnemyDeath -= onEnemyDeath;
-        EventManager.Instance.onEnemyReady -= onEnemyReady;       
+        EventManager.Instance.onEnemyReady -= onEnemyReady;     
+        EventManager.Instance.OnEnemyWannaDive -= OnEnemyWannaDive;  
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(bActive){
-                    //Rnd fire
-            _bDive = UnityEngine.Random.Range(0f,1f) > dive_p;
-            if(_bDive && Time.time > _candive){
-                
-                {
-
-                    int try_cnt = 0;
-                    int row = -1;
-                    int column = -1;
-                    while(++try_cnt < 6){
-                        row = Random.Range(0,g.rules.H);
-                        if(ready[row]>0){
-                            break;
-                        }
-                    }
-                    while(++try_cnt < 11){
-                        column = Random.Range(0,g.rules.W);
-                        if((ready[row]&(1<<column)) > 0 ){
-                            break;
-                        }
-                    }
-                    if(try_cnt < 11){
-                        MakeEnemiesDive(row,column);
-                    }
-                }
-
-                
-            }
-        }
         if(!bActive){
             SpawnWave();
         }
@@ -126,6 +96,13 @@ public class WaveManager : MonoBehaviour
 
             }
         }
+    }
+
+    void OnEnemyWannaDive(int x,int y){
+        if(!bActive)return;
+        if(Time.time < _candive)return;
+        
+        MakeEnemiesDive(y,x);
     }
 
     void onEnemyDeath(int x, int y){

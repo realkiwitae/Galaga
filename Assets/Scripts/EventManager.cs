@@ -40,4 +40,8 @@ public class EventManager : MonoBehaviour
         if(onEnemyDive == null) return;
         onEnemyDive(i,j);
     }
+    public event Action<int,int> OnEnemyWannaDive;
+    public void EnemyWannaDive(int i,int j){
+        OnEnemyWannaDive(i,j);
+    }
 }

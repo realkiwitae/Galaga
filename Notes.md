@@ -64,3 +64,4 @@ Enemies diving increase chance of shooting, and first row goes deep for collisio
 # 23th/12
 1. Changed build/player settings for Window/linux build
 2. Modified UI to add game mode selection KILLS/SCORE
+3. Wave dive logic was flowded its better to ensure diving is more frequent so now enemies send requests

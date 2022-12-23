@@ -31,10 +31,16 @@ public class Enemy : MonoBehaviour
 
     [SerializeField]
     private float _cooldown = .15f; 
+    private float _cooldown_dive = 5f;
     private float _canfire = -99f;
     private bool _bFire = false;
     private float fire_p = .9999f;
     private float fire_p_dive = .999f;
+
+    private bool _bWannaDive = false;
+    private float _canDive = -99f;
+    private float dive_p = .99f;
+
     [SerializeField]
     private GameObject _laserPrefab;
     // Start is called before the first frame update
@@ -72,6 +78,10 @@ public class Enemy : MonoBehaviour
         _bFire = UnityEngine.Random.Range(0f,1f) > (state == ESTATE_MACHINE.DIVE?fire_p_dive:fire_p);
         if(_bFire && Time.time > _canfire){
             FireLaser();
+        }
+        _bWannaDive = UnityEngine.Random.Range(0f,1f) > dive_p;
+        if(_bWannaDive && Time.time > _canDive){
+            EventManager.Instance.EnemyWannaDive(this.x,this.y);
         }
 
         switch(state){
@@ -191,6 +201,7 @@ public class Enemy : MonoBehaviour
     void Dive(int i, int j){
         if(j == x && i == y){
             bDiveOverdue = true;
+            _canDive = Time.time + _cooldown_dive;
         }
     }
 
