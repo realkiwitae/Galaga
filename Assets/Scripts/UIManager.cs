@@ -26,19 +26,24 @@ public class UIManager : MonoBehaviour
         }
 
         livestext.text = "Lives: " + GameManager.Instance.rules.player_nblives;
+
+        EventManager.Instance.onPlayerUpdate += PlayerUpdate;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
+    private void OnDestroy() {
+        EventManager.Instance.onPlayerUpdate -= PlayerUpdate;     
+    }
+
+    private void PlayerUpdate(){
         if(p){
             if(GameManager.Instance.gameMode == 0){
                 scoretext.text = "Score: " + p.score;
             }else{
                 scoretext.text = "Kills: " + p.kill_count;  
             }
+            livestext.text = "Lives: " + p.lives;   
         }else{
-            livestext.text = "Lives: 0";
+            livestext.text = "Lives: " + 0; 
         }
     }
 }

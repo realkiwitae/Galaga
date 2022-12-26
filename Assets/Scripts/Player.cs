@@ -120,6 +120,7 @@ public class Player : MonoBehaviour
 
     public void Damage(int d){
         _lives = Math.Max(0,_lives -d);
+        EventManager.Instance.PlayerUpdate();
         if(_lives < 1){
             GameManager.Instance.playerDeath(this);
             Destroy(this.gameObject);            
@@ -133,7 +134,7 @@ public class Player : MonoBehaviour
             if(!l) return;
             if(!l.shouldDestroy(this.tag))return;
             Destroy(other.gameObject);
-            Damage(1);
+            EventManager.Instance.PlayerHurt(1);
         }
 
     }
@@ -141,6 +142,7 @@ public class Player : MonoBehaviour
     private void AddScore(float s){
         score += s;
         kill_count++;
+        EventManager.Instance.PlayerUpdate();
         if(GameManager.Instance.checkXWin(this)){
             GameObject g = Instantiate(
             _popupprefab,transform.position + (.2f+transform.localScale.y/2)*Vector3.up + (.2f+transform.localScale.x/2)*Vector3.right,

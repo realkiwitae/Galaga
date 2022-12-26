@@ -29,6 +29,11 @@ public class EventManager : MonoBehaviour
         if(onPlayerHurt == null) return;
         onPlayerHurt(d);
     }
+    public event Action onPlayerUpdate;
+    public void PlayerUpdate(){
+        if(onPlayerUpdate == null) return;
+        onPlayerUpdate();
+    }
     public event Action<float> onAddScore;
     public void AddScore(float s){
         if(onAddScore == null) return;
